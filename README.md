@@ -1,4 +1,3 @@
----
 # Durham Fire Stations Mapping
 
 This project visualizes **Durham Fire Stations** by battalion on a map using R. The map is generated from a CSV file containing station names, battalion numbers, and physical addresses. Each station is geocoded to latitude and longitude, and battalion areas are highlighted with convex hulls for clarity.
