@@ -17,8 +17,11 @@ fire_stations <- read.csv("addresses_to_geocode.csv", stringsAsFactors = FALSE)
 
 # Geocode addresses using OpenStreetMap
 fire_stations_geo <- fire_stations %>%
-  geocode(address = Physical.Location, method = "osm") %>%
+  geocode(address = `Physical.Location`, method = "osm") %>%
   filter(!is.na(lat) & !is.na(long))
+
+# Save the geocoded CSV for future use
+write.csv(fire_stations_geo, "Fire_Stations_Geocoded.csv", row.names = FALSE)
 
 # Create short labels (S1, S2, etc.)
 fire_stations_geo <- fire_stations_geo %>%
@@ -57,9 +60,9 @@ ggplot() +
   
   # Station labels (short form)
   geom_text_repel(
-    data = fire_stations_geo,
-    aes(x = long, y = lat, label = ShortLabel, color = factor(Battalion)),
-    size = 3.5, fontface = "bold", nudge_y = 0.003, show.legend = FALSE
+    data = cbind(fire_stations_points, st_coordinates(fire_stations_points)),
+    aes(X, Y, label = ShortLabel, color = factor(Battalion)),
+    size = 3.5, fontface = "bold", show.legend = FALSE
   ) +
   
   # Colors and fills
