@@ -1,6 +1,6 @@
 Station,Battalion,Physical Location
 Station 1,1,"139 E. Morgan Street Durham, NC 27701"
-Station 2,1,"1001 Ninth Street Durham, NC 27705"
+Station 2,1,"1001 9th Street Durham, NC 27705"
 Station 3,4,"822 N. Miami Boulevard Durham, NC 27703"
 Station 4,1,"1818 Riddle Road Durham, NC 27713"
 Station 5,1,"2212 Chapel Hill Road Durham, NC 27707"
@@ -19,4 +19,3 @@ Station 17,4,"5503 Leesville Road Durham, NC 27703"
 Station 18,3,"6919 Herndon Road  Durham, NC 27713"
 Station 19,3,"4716 Old Page Road Durham, NC  27703"
 Station 19 Future,3,"31 Davis Drive Durham, NC 27713"
-,,
