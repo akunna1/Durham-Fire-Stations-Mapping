@@ -8,26 +8,22 @@ library(dplyr)
 library(sf)
 library(ggplot2)
 library(tigris)
-library(ggrepel)  # for nice label placement
+library(ggrepel)
 
 # --------------------------------
 # 1️⃣ Read CSV and geocode
 # --------------------------------
 fire_stations <- read.csv("addresses_to_geocode.csv", stringsAsFactors = FALSE)
 
-# Geocode addresses using OpenStreetMap
 fire_stations_geo <- fire_stations %>%
   geocode(address = `Physical.Location`, method = "osm") %>%
   filter(!is.na(lat) & !is.na(long))
 
-# Save the geocoded CSV for future use
 write.csv(fire_stations_geo, "Fire_Stations_Geocoded.csv", row.names = FALSE)
 
-# Create short labels (S1, S2, etc.)
 fire_stations_geo <- fire_stations_geo %>%
   mutate(ShortLabel = paste0("S", gsub("Station ", "", Station)))
 
-# Convert to spatial data
 fire_stations_points <- st_as_sf(fire_stations_geo, coords = c("long", "lat"), crs = 4326)
 
 # --------------------------------
@@ -49,34 +45,23 @@ battalion_hulls <- fire_stations_points %>%
 # 4️⃣ Plot map
 # --------------------------------
 ggplot() +
-  # Durham boundary
   geom_sf(data = durham_boundary, fill = "gray95", color = "black", linewidth = 0.5) +
-  
-  # Battalion polygons (convex hulls)
   geom_sf(data = battalion_hulls, aes(fill = factor(Battalion)), alpha = 0.15, color = NA) +
-  
-  # Fire stations
   geom_sf(data = fire_stations_points, aes(color = factor(Battalion)), size = 4, shape = 21, stroke = 1.5, fill = "white") +
-  
-  # Station labels (short form)
   geom_text_repel(
     data = cbind(fire_stations_points, st_coordinates(fire_stations_points)),
     aes(X, Y, label = ShortLabel, color = factor(Battalion)),
     size = 3.5, fontface = "bold", show.legend = FALSE
   ) +
-  
-  # Colors and fills
   scale_color_brewer(palette = "Set1", name = "Battalion") +
   scale_fill_brewer(palette = "Set1", guide = "none") +
-  
-  # Titles and captions
   labs(
     title = "Durham Fire Stations by Battalion",
     subtitle = "Geocoded from address data",
-    caption = "Source: Durham Fire Department"
+    caption = "Source: Durham Fire Department",
+    x = "Longitude",
+    y = "Latitude"
   ) +
-  
-  # Theme
   theme_minimal(base_size = 14) +
   theme(
     plot.title = element_text(size = 18, face = "bold"),
@@ -84,7 +69,9 @@ ggplot() +
     legend.position = "bottom",
     legend.title = element_text(face = "bold"),
     panel.background = element_rect(fill = "aliceblue"),
-    panel.grid = element_line(color = "gray85")
+    panel.grid = element_line(color = "gray85"),
+    # 👇 Rotate longitude axis labels 90 degrees
+    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
   )
 
 # --------------------------------
