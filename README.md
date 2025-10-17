@@ -37,7 +37,7 @@ The CSV file `addresses_to_geocode.csv` should include the following columns:
 | Station   | Battalion | Physical Location                     |
 | --------- | --------- | ------------------------------------- |
 | Station 1 | 1         | 139 E. Morgan Street Durham, NC 27701 |
-| Station 2 | 1         | 1001 Ninth Street Durham, NC 27705    |
+| Station 2 | 1         | 1001 9th Street Durham, NC 27705    |
 | ...       | ...       | ...                                   |
 
 ---
