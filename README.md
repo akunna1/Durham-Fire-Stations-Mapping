@@ -54,5 +54,4 @@ The CSV file `addresses_to_geocode.csv` should include the following columns:
 
 ## ⚡ Notes
 
-* Some addresses may fail to geocode; verify `NA` coordinates and correct addresses as needed.
 * Geocoding is performed using OpenStreetMap via `tidygeocoder`; optionally, `method = "arcgis"` can be used.
